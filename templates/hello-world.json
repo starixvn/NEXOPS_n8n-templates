@@ -1,0 +1,16 @@
+{
+  "name": "Hello World",
+  "description": "Dennis Test",
+  "tags": ["demo"],
+  "workflow": {
+    "nodes": [
+      {
+        "id": "1",
+        "name": "Start",
+        "type": "n8n-nodes-base.start",
+        "parameters": {}
+      }
+    ],
+    "connections": {}
+  }
+}
