@@ -1,0 +1,145 @@
+{
+  "name": "Jira",
+  "nodes": [
+    {
+      "parameters": {
+        "public": true,
+        "initialMessages": "Hi there! 👋\nMy name is Pentabot support Jira. How can I assist you today?",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -260,
+        -20
+      ],
+      "id": "22055d95-a87c-483c-8fde-526c9e683941",
+      "name": "Chats",
+      "webhookId": "2782e4de-1cce-4207-98e5-cbe94033e1dc"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "You are a Jira reporter. Use tools to get information about user question. Please ensure that when calling this tool, the input key MUST always be \"input\"."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.9,
+      "position": [
+        -40,
+        -20
+      ],
+      "id": "325fefe5-6e17-4a39-ac59-9871d121330a",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "sseEndpoint": "https://n8n-mcp-jira.lumigame.com/sse",
+        "include": "except"
+      },
+      "type": "@n8n/n8n-nodes-langchain.mcpClientTool",
+      "typeVersion": 1,
+      "position": [
+        280,
+        180
+      ],
+      "id": "5ed547e7-24c8-4d62-8115-cead0a0c7a36",
+      "name": "MCP Client"
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
+      "typeVersion": 1.3,
+      "position": [
+        0,
+        200
+      ],
+      "id": "4257298b-d3e8-4676-a835-c19e0a94abf9",
+      "name": "Postgres Chat Memory",
+      "credentials": {
+        "postgres": {
+          "id": "9DnT9MgBX4qdJuH4",
+          "name": "Postgres local"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.5-pro-exp-03-25",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -220,
+        200
+      ],
+      "id": "18d36254-0a34-46bf-ab2e-8bd4c0ea239f",
+      "name": "Google Gemini Chat Model1",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "ZSOZ91594U8CyuHi",
+          "name": "Gemini Acc"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Chats": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MCP Client": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Postgres Chat Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "799ace2f-943f-41d7-a05b-824e66a18f1b",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "98bfed1c0f22fa9e07d0e38dc58da94b0281d63095bd4ba14894d42a90a063e3"
+  },
+  "id": "sJ4E2Ktf0KlBrVOa",
+  "tags": []
+}
